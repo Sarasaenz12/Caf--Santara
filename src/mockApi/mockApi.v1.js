@@ -45,7 +45,7 @@ const products = [
         description: "Hojaldre francés recién horneado, crujiente por fuera y suave por dentro.",
         price: 5500,
         category: "alimentos",
-        image: "https://placehold.co/400x300/C9902A/FFF8F0?text=Croissant",
+        image: "../public/images/croissant.jpg",
     },
     {
         id: 6,
@@ -53,7 +53,7 @@ const products = [
         description: "Esponjoso muffin casero con arándanos frescos y una capa de azúcar perlado.",
         price: 4800,
         category: "alimentos",
-        image: "https://placehold.co/400x300/8B5E3C/FFF8F0?text=Muffin",
+        image: "../public/images/Muffin.jpg",
     },
     {
         id: 7,
@@ -61,7 +61,7 @@ const products = [
         description: "Pan de masa madre tostado con aguacate, huevo pochado y semillas de sésamo.",
         price: 8900,
         category: "alimentos",
-        image: "https://placehold.co/400x300/6B8C3E/FFF8F0?text=Tostada",
+        image: "../public/images/tostada.jpg",
     },
     {
         id: 8,
@@ -69,7 +69,7 @@ const products = [
         description: "Cualquier bebida caliente + croissant o muffin a precio especial. El desayuno perfecto.",
         price: 10500,
         category: "combos",
-        image: "https://placehold.co/400x300/3E1C00/D4A017?text=Combo",
+        image: "../public/images/Combo.jpeg",
     },
     ];
 
