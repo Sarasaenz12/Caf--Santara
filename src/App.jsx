@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -10,19 +9,17 @@ import Footer from "./components/Footer";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
 
-  // -------------------
-  // CART LOGIC (igual)
-  // -------------------
   const handleAddToCart = (product) => {
     setCartItems((prev) => {
       const exists = prev.find((i) => i.id === product.id);
       if (exists) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, qty: i.qty + 1 } : i
+          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      return [...prev, { ...product, qty: 1 }];
+      return [...prev, { ...product, quantity: 1 }];
     });
   };
 
@@ -33,7 +30,7 @@ export default function App() {
   const handleUpdateQty = (id, newQty) => {
     if (newQty < 1) return;
     setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, qty: newQty } : i))
+      prev.map((i) => (i.id === id ? { ...i, quantity: newQty } : i))
     );
   };
 
@@ -41,44 +38,28 @@ export default function App() {
     setCartItems([]);
   };
 
-  const cartCount = cartItems.reduce((sum, i) => sum + i.qty, 0);
+  const cartCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
-    <BrowserRouter>
-      <Navbar cartCount={cartCount} />
+    <>
+      <Navbar cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
 
-      <Routes>
-        <Route path="/" element={<Hero />} />
+      <main>
+        <Hero />
+        <Catalog onAddToCart={handleAddToCart} />
+        <OrderForm cart={cartItems} onClear={handleClearCart} />
+      </main>
 
-        <Route
-          path="/catalog"
-          element={<Catalog onAddToCart={handleAddToCart} />}
-        />
-
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              items={cartItems}
-              onRemove={handleRemoveFromCart}
-              onClear={handleClearCart}
-              onUpdateQty={handleUpdateQty}
-            />
-          }
-        />
-
-        <Route
-          path="/order"
-          element={
-            <OrderForm
-              cart={cartItems}
-              onClear={handleClearCart}
-            />
-          }
-        />
-      </Routes>
+      <Cart
+        items={cartItems}
+        onRemove={handleRemoveFromCart}
+        onClear={handleClearCart}
+        onUpdateQty={handleUpdateQty}
+        onClose={() => setCartOpen(false)}
+        isOpen={cartOpen}
+      />
 
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
