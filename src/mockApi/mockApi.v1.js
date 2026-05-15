@@ -13,7 +13,7 @@ const products = [
         description: "Concentrado intenso de café de origen único, con notas de chocolate amargo y avellana.",
         price: 4500,
         category: "bebidas",
-        image: "https://placehold.co/400x300/3E1C00/FFF8F0?text=Espresso",
+        image: "../public/images/espreso.png",
     },
     {
         id: 2,
@@ -21,7 +21,7 @@ const products = [
         description: "Espresso suave con leche vaporizada cremosa y arte latte dibujado a mano.",
         price: 7200,
         category: "bebidas",
-        image: "https://placehold.co/400x300/7B3F00/FFF8F0?text=Latte",
+        image: "../public/images/latte.png",
     },
     {
         id: 3,
@@ -29,7 +29,7 @@ const products = [
         description: "Equilibrio perfecto entre espresso, leche vaporizada y espuma densa de leche.",
         price: 6800,
         category: "bebidas",
-        image: "https://placehold.co/400x300/5C2D00/FFF8F0?text=Capuchino",
+        image: "../public/images/capuchino.png",
     },
     {
         id: 4,
@@ -37,7 +37,7 @@ const products = [
         description: "Café frío batido con caramelo artesanal, crema batida y toffee crocante.",
         price: 9500,
         category: "bebidas",
-        image: "https://placehold.co/400x300/D4A017/3E1C00?text=Frapp%C3%A9",
+        image: "../public/images/frappe.png",
     },
     {
         id: 5,
