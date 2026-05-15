@@ -1,6 +1,6 @@
 // src/components/Catalog.jsx
 import { useState, useEffect } from "react";
-import { getProducts } from "../api/v1/mockApi";
+import { getProducts } from "../mockApi/mockApi.v1.js";
 
 const CATEGORY_LABELS = {
   bebidas: "Bebidas",

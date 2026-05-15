@@ -1,6 +1,6 @@
 // src/components/OrderForm.jsx
 import { useState } from "react";
-import { submitOrder } from "../mockApi/mockApi.v1";
+import { submitOrder } from "../mockApi/mockApi.v1.js";
 
 const initialForm = {
   name: "",
