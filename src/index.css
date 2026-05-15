@@ -530,10 +530,12 @@ address { font-style: normal; }
 .product-card__image-wrapper {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 16 / 10;
 }
+
 .product-card__image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
@@ -1008,6 +1010,11 @@ address { font-style: normal; }
   }
   .footer__brand { grid-column: auto; }
   .footer__bottom { flex-direction: column; text-align: center; }
+
+  .product-card__image-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+  
 }
 
 /* Móvil: 480px */
@@ -1024,6 +1031,10 @@ address { font-style: normal; }
   .hero__actions { flex-direction: column; align-items: center; }
   .hero__actions .btn { width: 100%; max-width: 280px; }
 
+  .product-card__image-wrapper{
+    aspect-ratio: 3 / 2;}
+
   /* Nombre marca aún más compacto en móvil muy pequeño */
   .navbar__name { font-size: 0.95rem; }
 }
+
