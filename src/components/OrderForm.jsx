@@ -21,11 +21,242 @@ const initialErrors = {
   paymentMethod: "",
 };
 
+// ─── Modal overlay ────────────────────────────────────────────────────────────
+function Modal({ type, name, orderId, onClose }) {
+  if (!type) return null;
+
+  const overlayStyle = {
+    position: "fixed",
+    inset: 0,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
+    padding: "1rem",
+    animation: "fadeIn 0.2s ease",
+  };
+
+  const cardStyle = {
+    background: "var(--color-background-primary, #fff)",
+    borderRadius: "16px",
+    padding: "2rem",
+    maxWidth: "400px",
+    width: "100%",
+    textAlign: "center",
+    border: "0.5px solid var(--color-border-tertiary)",
+    animation: "slideUp 0.25s ease",
+  };
+
+  if (type === "loading") {
+    return (
+      <div style={overlayStyle} role="dialog" aria-modal="true" aria-label="Procesando pedido">
+        <div style={cardStyle}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
+            <Spinner />
+          </div>
+          <p style={{
+            fontSize: "18px",
+            fontWeight: 500,
+            color: "var(--color-text-primary)",
+            margin: "0 0 0.5rem",
+          }}>
+            Procesando tu pedido...
+          </p>
+          <p style={{
+            fontSize: "14px",
+            color: "var(--color-text-secondary)",
+            margin: 0,
+          }}>
+            Un momento, por favor.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "validation") {
+    return (
+      <div
+        style={overlayStyle}
+        role="alertdialog"
+        aria-modal="true"
+        aria-label="Formulario incompleto"
+        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      >
+        <div style={cardStyle}>
+          <div style={{
+            width: 56,
+            height: 56,
+            borderRadius: "50%",
+            background: "var(--color-background-warning, #FEF3C7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 1.25rem",
+          }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <p style={{
+            fontSize: "18px",
+            fontWeight: 500,
+            color: "var(--color-error)",
+            margin: "0 0 0.5rem",
+          }}>
+            Datos incompletos
+          </p>
+          <p style={{
+            fontSize: "14px",
+            color: "var(--color-espresso)",
+            margin: "0 0 1.5rem",
+            lineHeight: 1.6,
+          }}>
+            Por favor completa todos los campos obligatorios antes de realizar tu pedido.
+          </p>
+          <button
+            onClick={onClose}
+            style={{
+              background: "var(--color-coffee)",
+              border: "1px solid var(--color-mocha)",
+              borderRadius: "8px",
+              padding: "0.6rem 1.75rem",
+              fontSize: "15px",
+              fontWeight: 500,
+              cursor: "pointer",
+              color: "var(--color-text-primary)",
+              width: "100%",
+            }}
+          >
+            Entendido, volver al formulario
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "success") {
+    const firstName = name ? name.split(" ")[0] : "";
+    return (
+      <div
+        style={overlayStyle}
+        role="alertdialog"
+        aria-modal="true"
+        aria-label="Pedido exitoso"
+        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      >
+        <div style={cardStyle}>
+          <div style={{
+            width: 64,
+            height: 64,
+            borderRadius: "50%",
+            background: "var(--color-background-success, #D1FAE5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 1.25rem",
+          }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p style={{
+            fontSize: "20px",
+            fontWeight: 500,
+            color: "var( --color-text)",
+            margin: "0 0 0.5rem",
+          }}>
+            ¡Pedido confirmado!
+          </p>
+          <p style={{
+            fontSize: "15px",
+            color: "var(--color-mocha)",
+            margin: "0 0 0.5rem",
+            lineHeight: 1.6,
+          }}>
+            Gracias, <strong style={{ color: "var(--color-text)" }}>{firstName}</strong>. Tu pedido fue registrado correctamente.
+          </p>
+          {orderId && (
+            <p style={{
+              fontSize: "13px",
+              color: "var(--color-text)",
+              margin: "0 0 1.5rem",
+            }}>
+              Número de pedido:{" "}
+              <span style={{
+                fontWeight: 500,
+                color: "var(--color-espresso)",
+                fontFamily: "monospace",
+              }}>
+                #{orderId}
+              </span>
+            </p>
+          )}
+          <p style={{
+            fontSize: "13px",
+            color: "var(--color-espresso)",
+            margin: "0 0 1.5rem",
+            lineHeight: 1.5,
+          }}>
+            Te contactaremos pronto para confirmar los detalles.
+          </p>
+          <button
+            onClick={onClose}
+            style={{
+              background: "#059669",
+              border: "none",
+              borderRadius: "8px",
+              padding: "0.65rem 1.75rem",
+              fontSize: "15px",
+              fontWeight: 500,
+              cursor: "pointer",
+              color: "#fff",
+              width: "100%",
+            }}
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+function Spinner() {
+  return (
+    <svg
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+      fill="none"
+      aria-hidden="true"
+      style={{ animation: "spin 0.8s linear infinite" }}
+    >
+      <circle cx="24" cy="24" r="20" stroke="var(--color-border-tertiary)" strokeWidth="4"/>
+      <path d="M44 24a20 20 0 0 0-20-20" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ─── Keyframe injection ───────────────────────────────────────────────────────
+const modalStyles = `
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+@keyframes spin { to { transform: rotate(360deg) } }
+`;
+
+// ─── Main component ───────────────────────────────────────────────────────────
 export default function OrderForm({ cart }) {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState(initialErrors);
-  const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(null);
+  const [modal, setModal] = useState(null); // null | "loading" | "validation" | "success"
+  const [orderResult, setOrderResult] = useState(null);
   const [apiError, setApiError] = useState(null);
 
   const validate = () => {
@@ -71,29 +302,42 @@ export default function OrderForm({ cart }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMsg(null);
     setApiError(null);
 
-    if (!validate()) return;
+    if (!validate()) {
+      setModal("validation");
+      return;
+    }
 
-    setSubmitting(true);
+    setModal("loading");
     try {
       const result = await submitOrder({ ...form, cart });
-      setSuccessMsg(
-        `¡Gracias, ${form.name.split(" ")[0]}! Tu pedido fue registrado con el número ${result.orderId}. Te contactaremos pronto.`
-      );
+      setOrderResult(result);
+      setModal("success");
       setForm(initialForm);
     } catch (err) {
+      setModal(null);
       setApiError(err.message);
-    } finally {
-      setSubmitting(false);
     }
+  };
+
+  const closeModal = () => {
+    setModal(null);
   };
 
   const todayStr = new Date().toISOString().split("T")[0];
 
   return (
     <section className="order-form-section" id="pedido" aria-labelledby="order-title">
+      <style>{modalStyles}</style>
+
+      <Modal
+        type={modal}
+        name={form.name || orderResult?.name}
+        orderId={orderResult?.orderId}
+        onClose={closeModal}
+      />
+
       <div className="order-form-section__header">
         <p className="section-pretitle">¿Listo para pedir?</p>
         <h2 className="section-title" id="order-title">Haz tu pedido</h2>
@@ -103,13 +347,6 @@ export default function OrderForm({ cart }) {
       </div>
 
       <div className="order-form-wrapper">
-        {successMsg && (
-          <div className="order-form__success" role="alert" aria-live="polite">
-            <span aria-hidden="true">🎉</span>
-            <p>{successMsg}</p>
-          </div>
-        )}
-
         {apiError && (
           <div className="order-form__api-error" role="alert" aria-live="assertive">
             <span aria-hidden="true">⚠️</span>
@@ -292,10 +529,10 @@ export default function OrderForm({ cart }) {
             <button
               type="submit"
               className="btn btn--primary btn--large"
-              disabled={submitting}
-              aria-busy={submitting}
+              disabled={modal === "loading"}
+              aria-busy={modal === "loading"}
             >
-              {submitting ? "Procesando pedido..." : "Confirmar pedido"}
+              {modal === "loading" ? "Procesando pedido..." : "Confirmar pedido"}
             </button>
           </div>
         </form>
